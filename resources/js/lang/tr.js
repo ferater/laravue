@@ -218,10 +218,12 @@ export default {
     success: 'Başarılı',
     successEditMessage: 'Başarıyla güncellendi',
     successCreateMessage: 'Kategori {item} başarılı bir şekilde oluşturuldu',
+    borders: 'Kenarlıklar',
     horizontal: 'Yatay Çizgiler',
     vertical: 'Dikey Çizgiler',
     cell: 'Tüm Çizgiler',
     none: 'Çizgisiz',
+    columns: 'Stunlar',
   },
   form: {
     required: 'Bu alanı boş bırakmayın',
