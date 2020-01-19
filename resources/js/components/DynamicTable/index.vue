@@ -1,5 +1,5 @@
 <template>
-  <div class="q-mb-xl q-pb-md">
+  <div class="q-mb-xl q-pb-md go">
     <q-table
       :title="tableTitle"
       :columns="columns"
@@ -14,6 +14,10 @@
     >
       <template v-if="selected.length == 0" slot="top">
         <q-btn
+          v-anime="{
+            translateX: [-50, 0],
+            duration: 900,
+          }"
           dense
           icon="add_circle"
           size="14px"
@@ -22,11 +26,21 @@
           :label="$t('dynamicTable.add')"
           @click="$emit('addItem')"
         >
-          <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[5, 5]">
+          <q-tooltip
+            content-class="bg-amber text-black shadow-4"
+            :offset="[5, 5]"
+          >
             {{ $t('dynamicTable.addToolTip') }}
           </q-tooltip>
         </q-btn>
-        <q-input v-model="filter" class="table-search" dense debounce="300" :placeholder="$t('dynamicTable.search')">
+        <q-input
+          v-model="filter"
+          class="table-search"
+          outlined
+          dense
+          debounce="300"
+          :placeholder="$t('dynamicTable.search')"
+        >
           <template v-if="!filter" v-slot:prepend>
             <q-icon name="search" />
           </template>
@@ -70,28 +84,70 @@
           dense
           :icon="mode === 'list' ? 'grid_on' : 'view_list'"
           @click="
-            mode = mode === 'grid' ? 'list' : 'grid'
-            separator = mode === 'grid' ? 'none' : 'horizontal'
+            mode = mode === 'grid' ? 'list' : 'grid';
+            separator = mode === 'grid' ? 'none' : 'horizontal';
           "
         />
       </template>
       <template slot="top-selection">
-        <q-btn class="edit" dense color="white" text-color="deep-orange" icon="edit" :disable="loading" @click="editItem">
-          <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[5, 5]">
-            {{ $t('dynamicTable.editToolTip') }}
-          </q-tooltip>
-        </q-btn>
-        <q-btn class="delete" dense color="white" text-color="deep-orange" icon="delete" :disable="loading" @click="deleteItem">
-          <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[5, 5]">
-            {{ $t('dynamicTable.deleteToolTip') }}
-          </q-tooltip>
-        </q-btn>
-        <q-btn class="delete" dense color="white" text-color="deep-orange" icon="remove_red_eye" :disable="loading" @click="showItem">
-          <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[5, 5]">
-            {{ $t('dynamicTable.showToolTip') }}
-          </q-tooltip>
-        </q-btn>
-        <q-input v-model="filter" class="table-search" dense debounce="300" :placeholder="$t('dynamicTable.search')">
+        <div v-anime="{ translateX: [-50, 0], duration: 800 }">
+          <q-btn
+            class="edit"
+            dense
+            color="white"
+            text-color="deep-orange"
+            icon="edit"
+            :disable="loading"
+            @click="editItem"
+          >
+            <q-tooltip
+              content-class="bg-amber text-black shadow-4"
+              :offset="[5, 5]"
+            >
+              {{ $t('dynamicTable.editToolTip') }}
+            </q-tooltip>
+          </q-btn>
+          <q-btn
+            class="delete"
+            dense
+            color="white"
+            text-color="deep-orange"
+            icon="delete"
+            :disable="loading"
+            @click="deleteItem"
+          >
+            <q-tooltip
+              content-class="bg-amber text-black shadow-4"
+              :offset="[5, 5]"
+            >
+              {{ $t('dynamicTable.deleteToolTip') }}
+            </q-tooltip>
+          </q-btn>
+          <q-btn
+            class="delete"
+            dense
+            color="white"
+            text-color="deep-orange"
+            icon="remove_red_eye"
+            :disable="loading"
+            @click="showItem"
+          >
+            <q-tooltip
+              content-class="bg-amber text-black shadow-4"
+              :offset="[5, 5]"
+            >
+              {{ $t('dynamicTable.showToolTip') }}
+            </q-tooltip>
+          </q-btn>
+        </div>
+        <q-input
+          v-model="filter"
+          class="table-search"
+          dense
+          outlined
+          debounce="300"
+          :placeholder="$t('dynamicTable.search')"
+        >
           <template v-if="!filter" v-slot:prepend>
             <q-icon name="search" />
           </template>
@@ -135,8 +191,8 @@
           dense
           :icon="mode === 'list' ? 'grid_on' : 'view_list'"
           @click="
-            mode = mode === 'grid' ? 'list' : 'grid'
-            separator = mode === 'grid' ? 'none' : 'horizontal'
+            mode = mode === 'grid' ? 'list' : 'grid';
+            separator = mode === 'grid' ? 'none' : 'horizontal';
           "
         />
       </template>
@@ -144,46 +200,33 @@
         <div
           class="q-pa-xs col-xs-6 col-sm-4 col-md-3 col-lg-3 grid-style-transition cursor-pointer"
           :style="props.selected ? 'transform: scale(0.95);' : ''"
+          style="transition: all ease 0.2s"
         >
           <q-card
-            :class="`${props.selected ? $q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2' : ''}`"
+            :class="
+              `${
+                props.selected
+                  ? $q.dark.isActive
+                    ? 'bg-grey-9'
+                    : 'bg-grey-2'
+                  : ''
+              }`
+            "
             @click.native="props.selected = !props.selected"
           >
             <template>
-              <!--              <q-card-section class="q-ma-sm">-->
-              <q-popup-proxy v-if="props.selected == 1" context-menu>
-                <q-banner>
-                  <q-btn class="edit" dense color="white" text-color="deep-orange" icon="edit" :disable="loading" @click="editItem">
-                    <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[5, 5]">
-                      {{ $t('dynamicTable.editToolTip') }}
-                    </q-tooltip>
-                  </q-btn>
-                  <q-btn class="delete" dense color="white" text-color="deep-orange" icon="delete" :disable="loading" @click="deleteItem">
-                    <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[5, 5]">
-                      {{ $t('dynamicTable.deleteToolTip') }}
-                    </q-tooltip>
-                  </q-btn>
-                  <q-btn class="delete" dense color="white" text-color="deep-orange" icon="remove_red_eye" :disable="loading" @click="showItem">
-                    <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[5, 5]">
-                      {{ $t('dynamicTable.showToolTip') }}
-                    </q-tooltip>
-                  </q-btn>
-                </q-banner>
-              </q-popup-proxy>
               <q-list>
                 <q-checkbox
                   v-if="selectionCheckBox"
                   v-model="props.selected"
                   dense
                   :color="color"
-                  class="ellipsis-2-lines"
+                  :label="props.row.name"
                 />
                 <q-item v-for="(col, i) in props.cols" :key="i">
                   <q-item-section>
                     <q-item-label lines="1" caption>
-                      {{
-                        col.label
-                      }}
+                      {{ col.label }}
                     </q-item-label>
                     <q-item-label
                       :lines="
@@ -197,35 +240,128 @@
                     </q-item-label>
                   </q-item-section>
                 </q-item>
+                <q-popup-proxy v-if="props.selected == 1" context-menu>
+                  <q-banner>
+                    <q-btn
+                      class="edit"
+                      dense
+                      color="white"
+                      text-color="deep-orange"
+                      icon="edit"
+                      :disable="loading"
+                      @click="editItem"
+                    >
+                      <q-tooltip
+                        content-class="bg-amber text-black shadow-4"
+                        :offset="[5, 5]"
+                      >
+                        {{ $t('dynamicTable.editToolTip') }}
+                      </q-tooltip>
+                    </q-btn>
+                    <q-btn
+                      class="delete"
+                      dense
+                      color="white"
+                      text-color="deep-orange"
+                      icon="delete"
+                      :disable="loading"
+                      @click="deleteItem"
+                    >
+                      <q-tooltip
+                        content-class="bg-amber text-black shadow-4"
+                        :offset="[5, 5]"
+                      >
+                        {{ $t('dynamicTable.deleteToolTip') }}
+                      </q-tooltip>
+                    </q-btn>
+                    <q-btn
+                      class="delete"
+                      dense
+                      color="white"
+                      text-color="deep-orange"
+                      icon="remove_red_eye"
+                      :disable="loading"
+                      @click="showItem"
+                    >
+                      <q-tooltip
+                        content-class="bg-amber text-black shadow-4"
+                        :offset="[5, 5]"
+                      >
+                        {{ $t('dynamicTable.showToolTip') }}
+                      </q-tooltip>
+                    </q-btn>
+                  </q-banner>
+                </q-popup-proxy>
               </q-list>
-              <!--              </q-card-section>-->
             </template>
           </q-card>
         </div>
       </template>
       <template v-if="mode === 'list'" v-slot:body="props">
-        <q-tr :props="props" :class="'cursor-pointer'" @click.native="props.selected = !props.selected">
+        <q-tr
+          v-anime="{ opacity: [0, 1], duration: 1200 }"
+          :props="props"
+          :class="'cursor-pointer'"
+          @click.native="props.selected = !props.selected"
+        >
           <q-popup-proxy v-if="props.selected == 1" context-menu>
             <q-banner>
-              <q-btn class="edit" dense color="white" text-color="deep-orange" icon="edit" :disable="loading" @click="editItem">
-                <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[5, 5]">
+              <q-btn
+                class="edit"
+                dense
+                color="white"
+                text-color="deep-orange"
+                icon="edit"
+                :disable="loading"
+                @click="editItem"
+              >
+                <q-tooltip
+                  content-class="bg-amber text-black shadow-4"
+                  :offset="[5, 5]"
+                >
                   {{ $t('dynamicTable.editToolTip') }}
                 </q-tooltip>
               </q-btn>
-              <q-btn class="delete" dense color="white" text-color="deep-orange" icon="delete" :disable="loading" @click="deleteItem">
-                <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[5, 5]">
+              <q-btn
+                class="delete"
+                dense
+                color="white"
+                text-color="deep-orange"
+                icon="delete"
+                :disable="loading"
+                @click="deleteItem"
+              >
+                <q-tooltip
+                  content-class="bg-amber text-black shadow-4"
+                  :offset="[5, 5]"
+                >
                   {{ $t('dynamicTable.deleteToolTip') }}
                 </q-tooltip>
               </q-btn>
-              <q-btn class="delete" dense color="white" text-color="deep-orange" icon="remove_red_eye" :disable="loading" @click="showItem">
-                <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[5, 5]">
+              <q-btn
+                class="delete"
+                dense
+                color="white"
+                text-color="deep-orange"
+                icon="remove_red_eye"
+                :disable="loading"
+                @click="showItem"
+              >
+                <q-tooltip
+                  content-class="bg-amber text-black shadow-4"
+                  :offset="[5, 5]"
+                >
                   {{ $t('dynamicTable.showToolTip') }}
                 </q-tooltip>
               </q-btn>
             </q-banner>
           </q-popup-proxy>
           <q-td auto-width>
-            <q-checkbox v-if="selectionCheckBox" v-model="props.selected" color="deep-orange" />
+            <q-checkbox
+              v-if="selectionCheckBox"
+              v-model="props.selected"
+              color="deep-orange"
+            />
             <!--            <span v-else />-->
           </q-td>
           <q-td v-for="col in props.cols" :key="col.name" :props="props">
@@ -239,11 +375,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   name: 'DynamicTable',
   props: {
     tableTitle: {
       type: String,
+      required: false,
+      default: '',
     },
     data: {
       type: [Array, Object],
@@ -259,7 +398,7 @@ export default {
     },
     loading: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     topRightOptions: {
       type: Object,
@@ -296,7 +435,11 @@ export default {
       pagination: { rowsPerPage: 10, page: 1 },
     };
   },
-  computed: {},
+  computed: {
+    ...mapState({
+      effects: state => state.settings.effects,
+    }),
+  },
   watch: {},
   mounted() {
     this.visibleColumns = this.columns.map(v => {
@@ -323,58 +466,28 @@ export default {
       this.$emit('editItem', item);
       this.selected = [];
     },
-    colSelector() {
-      this.$nextTick(() => {
-        this.active = false;
-        const a = [].forEach.call(document.querySelectorAll('td'), el => {
-          el.addEventListener('mousedown', ev => {
-            this.active = true;
-            ev.preventDefault();
-            const b = [].forEach.call(
-              document.querySelectorAll('.highlight'),
-              el2 => {
-                el2.classList.remove('highlight');
-              }
-            );
-            el.classList.add('highlight');
-          });
-        });
-
-        const c = [].forEach.call(document.querySelectorAll('td'), el => {
-          el.addEventListener('mousemove', ev => {
-            if (this.active) {
-              el.classList.add('highlight');
-            }
-          });
-        });
-
-        document.addEventListener('mouseup', ev => {
-          this.active = false;
-        });
-      });
-    },
   },
 };
 </script>
 
 <style scoped>
-  .add {
-    margin: 0 3px;
-  }
-  .edit {
-    margin: 0 8px;
-  }
-  .delete {
-    margin: 0 7px;
-  }
-  .table-search {
-    position: absolute;
-    top: 3px;
-    left: 170px;
-  }
-  .table-title {
-    position: absolute;
-    top: 15px;
-    left: 50%;
-  }
+.add {
+  margin: 0 3px;
+}
+.edit {
+  margin: 0 8px;
+}
+.delete {
+  margin: 0 7px;
+}
+.table-search {
+  position: absolute;
+  top: 13px;
+  left: 170px;
+}
+.table-title {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+}
 </style>

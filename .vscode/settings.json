@@ -1,0 +1,8 @@
+{
+  "eslint.alwaysShowStatus": true,
+  "eslint.format.enable": true,
+  "eslint.packageManager": "yarn",
+  "editor.formatOnSave": false,
+"vetur.validation.template": true,
+"vetur.experimental.templateInterpolationService": true
+}

@@ -1,9 +1,13 @@
 <template>
   <div class="app-container">
+    <Skeleton v-if="loading" :columns="columns" class="skeleton" />
     <dynamic-table
+      v-if="!loading"
+      class="anime"
       :table-title="tableTitle"
       :columns="columns"
       :data="list"
+      :v-loading="loading"
       search
       @showItem="handleShow"
       @addItem="handleCreateForm"
@@ -63,31 +67,21 @@
 
 <script>
 import DynamicTable from '@/components/DynamicTable';
+import Skeleton from '@/components/DynamicTable/Skeleton';
 import Resource from '@/api/resource';
-const categoryResource = new Resource('categories');
+const itemResource = new Resource('categories');
 export default {
   name: 'CategoryList',
   components: {
-    DynamicTable,
+    DynamicTable, Skeleton,
   },
   data() {
     return {
-      list: [],
-      name: 'Kategori',
-      currentItem: {},
-      /** ***************** **/
-      /** Tema Zımbırtıları **/
-      color: 'orange',
-      loading: true,
-      /** /Tema Zımbırtıları **/
-      /** *********************** **/
-      /** Form, Dialog **/
-      formVisible: false,
-      formTitle: '',
-      /** /Form, Dialog verileri **/
-      /** ************************ **/
       /** Tablo Verileri */
+      name: this.$t('category.category'),
       tableTitle: this.$t('category.categories'),
+      currentItem: {},
+      list: [],
       columns: [
         {
           name: 'name',
@@ -117,6 +111,17 @@ export default {
       },
       /** /Default item tanımları **/
       /** ************************ **/
+      /** ***************** **/
+      /** Tema Zımbırtıları **/
+      color: 'orange',
+      loading: true,
+      /** /Tema Zımbırtıları **/
+      /** *********************** **/
+      /** Form, Dialog **/
+      formVisible: false,
+      formTitle: '',
+      /** /Form, Dialog verileri **/
+      /** ************************ **/
     };
   },
   created() {
@@ -125,16 +130,18 @@ export default {
   methods: {
     async getList() {
       this.loading = true;
-      const { data } = await categoryResource.list({});
+      const { data } = await itemResource.list({});
       this.list = data;
-      this.loading = false;
+      setTimeout(() => {
+        this.loading = false;
+      }, 1000);
     },
     handleShow(id) {
       console.log('handleShow item id:', id);
     },
     handleSubmit() {
       if (this.currentItem.id !== undefined) {
-        categoryResource.update(this.currentItem.id, this.currentItem).then(response => {
+        itemResource.update(this.currentItem.id, this.currentItem).then(response => {
           this.$notify({
             dangerouslyUseHTMLString: true,
             title: this.$t('dynamicTable.success'),
@@ -142,7 +149,9 @@ export default {
             type: 'success',
             position: 'bottom-left',
           });
-          this.getList();
+          setTimeout(() => {
+            this.getList();
+          }, 700);
           this.currentItem = Object.assign({}, this.defaultItem);
         }).catch(error => {
           console.log(error);
@@ -150,7 +159,7 @@ export default {
           this.formVisible = false;
         });
       } else {
-        categoryResource
+        itemResource
           .store(this.currentItem)
           .then(response => {
             this.$message({
@@ -175,19 +184,20 @@ export default {
     handleDelete(id, name) {
       const h = this.$createElement;
       this.$confirm(null, {
-        title: 'Siliniyor!',
+        title: this.$t('general.attention'),
         message: h('p', null, [
-          h('span', null, 'Bu ' + ' ' + this.$t('category.category') + ': '),
-          h('i', { style: 'color: teal; font-weight: bold' }, name),
-          h('span', null, ' ' + ' silinecek. Bu işlem geri alınamaz!'),
+          h('span', null, this.$t('general.this') + ' ' + this.$t('category.category') + ': '),
+          h('i', { style: 'color: teal; font-weight: bold; text-decoration: underline;' }, name),
+          h('span', null, ' ' + this.$t('general.willDelete')),
         ]),
-        confirmButtonText: 'Sil',
-        cancelButtonText: 'İptal',
+        confirmButtonText: this.$t('general.delete'),
+        cancelButtonText: this.$t('general.cancel'),
         type: 'warning',
         beforeClose: (action, instance, done) => {
           if (action === 'confirm') {
+            this.loading = true;
             instance.confirmButtonLoading = true;
-            instance.confirmButtonText = 'Siliniyor...';
+            instance.confirmButtonText = this.$t('general.deleting');
             setTimeout(() => {
               done();
               setTimeout(() => {
@@ -199,10 +209,10 @@ export default {
           }
         },
       }).then(() => {
-        categoryResource.destroy(id).then(response => {
+        itemResource.destroy(id).then(response => {
           this.$message({
             type: 'success',
-            message: 'Delete completed',
+            message: this.$t('general.deleteSuccess', { item: this.name }),
           });
           this.getList();
         }).catch(error => {
@@ -211,7 +221,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: 'Delete canceled',
+          message: this.$t('general.deleteCanceled'),
         });
       });
     },
@@ -224,13 +234,13 @@ export default {
       this.formVisible = false;
       this.currentItem = Object.assign({}, this.defaultItem);
     },
-    acceptAlert(color){
-      this.$vs.notify({
-        color: 'success',
-        title: 'Accept Selected',
-        text: 'Lorem ipsum dolor sit amet, consectetur',
-      });
-    },
   },
 };
 </script>
+
+<style scoped>
+.anime {
+  animation-delay: 0.4s;
+  animation-duration: 0.5s;
+}
+</style>

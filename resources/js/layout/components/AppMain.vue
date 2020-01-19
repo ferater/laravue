@@ -11,6 +11,11 @@
 <script>
 export default {
   name: 'AppMain',
+  data() {
+    return {
+      loading: true,
+    };
+  },
   computed: {
     cachedViews() {
       return this.$store.state.tagsView.cachedViews;
@@ -46,4 +51,3 @@ export default {
   }
 }
 </style>
-

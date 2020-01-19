@@ -29,8 +29,10 @@ Vue.use(Vuesax, {
 import Quasar from 'quasar';
 import 'quasar/dist/quasar.css';
 import '@quasar/extras/material-icons/material-icons.css';
-import '@quasar/extras/animate/tada.css';
 Vue.use(Quasar);
+
+import VueAnime from 'vue-animejs';
+Vue.use(VueAnime);
 
 Vue.config.productionTip = false;
 

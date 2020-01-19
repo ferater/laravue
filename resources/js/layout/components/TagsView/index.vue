@@ -12,7 +12,7 @@
         @click.middle.native="closeSelectedTag(tag)"
         @contextmenu.prevent.native="openMenu(tag,$event)"
       >
-        {{ generateTitle(tag.title) }}
+        <span>{{ generateTitle(tag.title) }}</span>
         <span v-if="!tag.meta.affix" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
       </router-link>
     </scroll-pane>
@@ -212,7 +212,7 @@ export default {
       line-height: 26px;
       border: 1px solid #d8dce5;
       color: #495060;
-      background: #fff;
+      background: #ddd;
       padding: 0 8px;
       font-size: 12px;
       margin-left: 5px;
@@ -227,6 +227,7 @@ export default {
         background-color: #42b983;
         color: #fff;
         border-color: #42b983;
+        padding: 0 10px;
         &::before {
           content: '';
           background: #fff;

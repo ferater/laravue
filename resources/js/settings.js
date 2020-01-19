@@ -4,7 +4,7 @@ export default {
   /**
    * @type {String}
    */
-  title: 'Laravel Vue Admin',
+  title: 'Laravue Otomasyon',
   theme: variables.theme,
 
   /**
@@ -30,6 +30,12 @@ export default {
    * @description Whether show the logo in sidebar
    */
   sidebarLogo: false,
+
+  /**
+   * @type {boolean} true | false
+   * @description Whether show the logo in sidebar
+   */
+  effects: false,
 
   /**
    * @type {string | array} 'production' | ['production','development']

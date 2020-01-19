@@ -24,6 +24,10 @@
         <span>{{ $t('settings.sidebarLogo') }}</span>
         <el-switch v-model="sidebarLogo" class="drawer-switch" />
       </div>
+      <div class="drawer-item">
+        <span>{{ $t('settings.effects') }}</span>
+        <el-switch v-model="effects" class="drawer-switch" />
+      </div>
     </div>
   </div>
 </template>
@@ -66,6 +70,17 @@ export default {
       set(val) {
         this.$store.dispatch('settings/changeSetting', {
           key: 'sidebarLogo',
+          value: val,
+        });
+      },
+    },
+    effects: {
+      get() {
+        return this.$store.state.settings.effects;
+      },
+      set(val) {
+        this.$store.dispatch('settings/changeSetting', {
+          key: 'effects',
           value: val,
         });
       },

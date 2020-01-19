@@ -213,6 +213,7 @@ export default {
     showToolTip: 'Detayları gör',
     edit: 'Düzenle',
     delete: 'Sil',
+    cancel: 'İptal',
     new: 'Yeni {item} oluştur',
     editFormTitle: '{item} Düzenle',
     success: 'Başarılı',
@@ -238,5 +239,13 @@ export default {
   },
   general: {
     description: 'Açıklama',
+    attention: 'Dikkat !',
+    this: 'Bu',
+    willDelete: 'silinecek. Bu işlem geri alınamaz!',
+    delete: 'Sil',
+    cancel: 'İptal',
+    deleting: 'Siliniyor...',
+    deleteSuccess: '{item} silindi',
+    deleteCanceled: 'Silme işlemi iptal edildi',
   },
 };
