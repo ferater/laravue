@@ -1,13 +1,16 @@
 <template>
   <div class="app-container">
-    <Skeleton v-if="loading" :columns="columns" class="skeleton" />
+    <Skeleton
+      v-if="loading"
+      :columns="columns"
+      class="skeleton"
+    />
     <dynamic-table
-      v-if="!loading"
+      v-else
       class="anime"
       :table-title="tableTitle"
       :columns="columns"
       :data="list"
-      :v-loading="loading"
       search
       @showItem="handleShow"
       @addItem="handleCreateForm"
@@ -239,8 +242,7 @@ export default {
 </script>
 
 <style scoped>
-.anime {
-  animation-delay: 0.4s;
-  animation-duration: 0.5s;
+.skeleton {
+  animation-duration: 0.2s;
 }
 </style>

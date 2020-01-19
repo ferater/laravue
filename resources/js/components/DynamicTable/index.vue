@@ -97,7 +97,6 @@
             color="white"
             text-color="deep-orange"
             icon="edit"
-            :disable="loading"
             @click="editItem"
           >
             <q-tooltip
@@ -113,7 +112,6 @@
             color="white"
             text-color="deep-orange"
             icon="delete"
-            :disable="loading"
             @click="deleteItem"
           >
             <q-tooltip
@@ -129,7 +127,6 @@
             color="white"
             text-color="deep-orange"
             icon="remove_red_eye"
-            :disable="loading"
             @click="showItem"
           >
             <q-tooltip
@@ -248,7 +245,6 @@
                       color="white"
                       text-color="deep-orange"
                       icon="edit"
-                      :disable="loading"
                       @click="editItem"
                     >
                       <q-tooltip
@@ -264,7 +260,6 @@
                       color="white"
                       text-color="deep-orange"
                       icon="delete"
-                      :disable="loading"
                       @click="deleteItem"
                     >
                       <q-tooltip
@@ -280,7 +275,6 @@
                       color="white"
                       text-color="deep-orange"
                       icon="remove_red_eye"
-                      :disable="loading"
                       @click="showItem"
                     >
                       <q-tooltip
@@ -312,7 +306,6 @@
                 color="white"
                 text-color="deep-orange"
                 icon="edit"
-                :disable="loading"
                 @click="editItem"
               >
                 <q-tooltip
@@ -328,7 +321,6 @@
                 color="white"
                 text-color="deep-orange"
                 icon="delete"
-                :disable="loading"
                 @click="deleteItem"
               >
                 <q-tooltip
@@ -344,7 +336,6 @@
                 color="white"
                 text-color="deep-orange"
                 icon="remove_red_eye"
-                :disable="loading"
                 @click="showItem"
               >
                 <q-tooltip
