@@ -233,9 +233,12 @@ export default {
     category: 'Kategori',
     categories: 'Kategoriler',
     search: 'Kategori Ara',
+    id: 'Prog. Kimliği',
     name: 'Kategori Adı',
     code: 'Kategori Kodu',
     description: 'Kategori Açıklama',
+    created_at: 'Oluşturma Tarihi',
+    updated_at: 'Güncelleme Tarihi',
   },
   general: {
     description: 'Açıklama',
@@ -247,5 +250,7 @@ export default {
     deleting: 'Siliniyor...',
     deleteSuccess: '{item} silindi',
     deleteCanceled: 'Silme işlemi iptal edildi',
+    close: 'Kapat',
+    save: 'Kaydet',
   },
 };

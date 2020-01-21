@@ -356,7 +356,12 @@
             <!--            <span v-else />-->
           </q-td>
           <q-td v-for="col in props.cols" :key="col.name" :props="props">
-            {{ col.value }}
+            <span v-if="col.value.length > 30">
+              {{ col.value | readMore(30, '...') | uppercaseFirst }}
+            </span>
+            <span v-else>
+              {{ col.value | uppercaseFirst }}
+            </span>
           </q-td>
         </q-tr>
       </template>
@@ -369,6 +374,7 @@
 import { mapState } from 'vuex';
 export default {
   name: 'DynamicTable',
+  components: {},
   props: {
     tableTitle: {
       type: String,
@@ -443,7 +449,7 @@ export default {
   methods: {
     showItem() {
       const item = this.selected[0];
-      this.$emit('showItem', item.id);
+      this.$emit('showItem', item);
       this.selected = [];
     },
     deleteItem() {

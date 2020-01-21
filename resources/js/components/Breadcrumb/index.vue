@@ -74,9 +74,6 @@ export default {
 </script>
 
 <style scoped>
-* {
-    font-family: sans-serif;
-}
 
 #crouton ul {
     margin: 10px 0;

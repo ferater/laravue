@@ -7,7 +7,6 @@
     />
     <dynamic-table
       v-else
-      class="anime"
       :table-title="tableTitle"
       :columns="columns"
       :data="list"
@@ -17,53 +16,28 @@
       @editItem="handleEditForm"
       @deleteItem="handleDelete"
     />
-    <q-dialog v-model="formVisible" position="left">
-      <q-card style="width: 600px">
-        <q-card-section>
-          <div class="text-h6">{{ formTitle }}</div>
-        </q-card-section>
-        <q-separator />
-        <q-form
-          @submit="handleSubmit()"
-        >
-          <q-card-section style="max-height: 50vh" class="scroll">
-            <q-input
-              v-model="currentItem.name"
-              dense
-              outlined
-              :color="color"
-              :label-color="color"
-              :label="$t('category.name')"
-              lazy-rules
-              :rules="[ val => val && val.length > 0 || $t('form.required')]"
-            >
-              <template slot="append">
-                <q-icon name="description" :color="color" />
-              </template>
-            </q-input>
-            <q-input
-              v-model="currentItem.description"
-              dense
-              outlined
-              autogrow
-              :color="color"
-              :label-color="color"
-              :label="$t('category.description')"
-              lazy-rules
-              :rules="[ val => val && val.length > 0 || $t('form.required')]"
-            >
-              <template slot="append">
-                <q-icon name="description" :color="color" />
-              </template>
-            </q-input>
-          </q-card-section>
-          <q-separator />
-          <q-card-actions align="right">
-            <q-btn dense label="İptal" color="white" text-color="black" @click="close" />
-            <q-btn dense label="Kaydet" color="primary" type="submit" />
-          </q-card-actions>
-        </q-form>
-      </q-card>
+    <q-dialog
+      v-model="formVisible"
+      position="left"
+    >
+      <Form
+        :current-item="currentItem"
+        :form-title="formTitle"
+        @submit="handleSubmit"
+        @close="close"
+      />
+    </q-dialog>
+    <q-dialog
+      v-model="detail"
+      persistent
+      maximized
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <Detail
+        :current-item="currentItem"
+        @close="close"
+      />
     </q-dialog>
   </div>
 </template>
@@ -71,12 +45,14 @@
 <script>
 import DynamicTable from '@/components/DynamicTable';
 import Skeleton from '@/components/DynamicTable/Skeleton';
+import Form from './components/Form';
+import Detail from './components/Detail';
 import Resource from '@/api/resource';
 const itemResource = new Resource('categories');
 export default {
   name: 'CategoryList',
   components: {
-    DynamicTable, Skeleton,
+    DynamicTable, Skeleton, Form, Detail,
   },
   data() {
     return {
@@ -121,6 +97,7 @@ export default {
       /** /Tema Zımbırtıları **/
       /** *********************** **/
       /** Form, Dialog **/
+      detail: false,
       formVisible: false,
       formTitle: '',
       /** /Form, Dialog verileri **/
@@ -139,8 +116,10 @@ export default {
         this.loading = false;
       }, 1000);
     },
-    handleShow(id) {
-      console.log('handleShow item id:', id);
+    handleShow(item) {
+      this.detail = true;
+      this.currentItem = Object.assign({}, item);
+      console.log('handleShow item id:', item);
     },
     handleSubmit() {
       if (this.currentItem.id !== undefined) {
@@ -234,6 +213,7 @@ export default {
       this.formVisible = true;
     },
     close() {
+      this.detail = false;
       this.formVisible = false;
       this.currentItem = Object.assign({}, this.defaultItem);
     },
