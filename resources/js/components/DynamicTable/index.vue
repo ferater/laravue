@@ -1,6 +1,9 @@
 <template>
   <div class="q-mb-xl q-pb-md go">
     <q-table
+      :loading-label="loadingLabel"
+      :no-data-label="noDataLabel"
+      :no-results-label="noResultLabel"
       :title="tableTitle"
       :columns="columns"
       :pagination.sync="pagination"
@@ -416,7 +419,10 @@ export default {
   },
   data() {
     return {
+      loadingLabel: this.$t('dynamicTable.loadingLabel'),
+      noDataLabel: this.$t('dynamicTable.noData'),
       filter: '',
+      noResultLabel: this.$t('dynamicTable.noResultLabel'),
       selected: [],
       selectionCheckBox: false,
       separator: 'horizontal',

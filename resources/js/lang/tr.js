@@ -205,7 +205,10 @@ export default {
 
   /* ********************************************************** */
   dynamicTable: {
+    loadingLabel: 'Yükleniyor...',
+    noData: 'Hiç veri yok',
     search: 'Ara',
+    noResultLabel: 'Aradığınız kelime bulunamadı',
     add: 'Ekle',
     addToolTip: 'Yeni Oluştur',
     editToolTip: 'Seçileni düzenle',
